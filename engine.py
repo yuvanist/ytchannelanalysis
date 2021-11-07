@@ -66,11 +66,31 @@ def construct_df_of_video_details(video_ids):
         data = json.loads(requests.get(url).text)
         published_at = data["items"][0]["snippet"]["publishedAt"]
         video_title = data["items"][0]["snippet"]["title"]
-        view_count = int(data["items"][0]["statistics"]["viewCount"])
-        like_count = int(data["items"][0]["statistics"]["likeCount"])
-        dislike_count = int(data["items"][0]["statistics"]["dislikeCount"])
-        comment_count = int(data["items"][0]["statistics"]["commentCount"])
-        favorite_count = int(data["items"][0]["statistics"]["favoriteCount"])
+        view_count = (
+            int(data["items"][0]["statistics"]["viewCount"])
+            if "viewCount" in data["items"][0]["statistics"]
+            else 0
+        )
+        like_count = (
+            int(data["items"][0]["statistics"]["likeCount"])
+            if "likeCount" in data["items"][0]["statistics"]
+            else 0
+        )
+        dislike_count = (
+            int(data["items"][0]["statistics"]["dislikeCount"])
+            if "dislikeCount" in data["items"][0]["statistics"]
+            else 0
+        )
+        comment_count = (
+            int(data["items"][0]["statistics"]["commentCount"])
+            if "commentCount" in data["items"][0]["statistics"]
+            else 0
+        )
+        favorite_count = (
+            int(data["items"][0]["statistics"]["favoriteCount"])
+            if "favoriteCount" in data["items"][0]["statistics"]
+            else 0
+        )
         video_duration = data["items"][0]["contentDetails"]["duration"]
         caption = data["items"][0]["contentDetails"]["caption"]
         video_detail = [
@@ -216,11 +236,11 @@ def construct_result_dict_from_frame(df):
 
 
 def process_channel(url):
-    print('requestURL',url)
+    print("requestURL", url)
     channel_id = get_channel_id_from_url(url)
-    print('channelIDfromURL',channel_id)
+    print("channelIDfromURL", channel_id)
     channel_info_meta = get_channel_info_meta(channel_id)
-    print('channel_info_meta',channel_info_meta)
+    print("channel_info_meta", channel_info_meta)
     if "items" not in channel_info_meta:
         return [
             "Please enter valid Channel URL. Eg: https://www.youtube.com/channel/UCsXVk37bltHxD1rDPwtNM8Q"
