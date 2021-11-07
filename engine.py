@@ -216,8 +216,11 @@ def construct_result_dict_from_frame(df):
 
 
 def process_channel(url):
+    print('requestURL',url)
     channel_id = get_channel_id_from_url(url)
+    print('channelIDfromURL',channel_id)
     channel_info_meta = get_channel_info_meta(channel_id)
+    print('channel_info_meta',channel_info_meta)
     if "items" not in channel_info_meta:
         return [
             "Please enter valid Channel URL. Eg: https://www.youtube.com/channel/UCsXVk37bltHxD1rDPwtNM8Q"
