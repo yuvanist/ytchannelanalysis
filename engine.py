@@ -5,12 +5,14 @@ from math import ceil
 import os
 from os.path import join, dirname
 from dotenv import load_dotenv
+from random import randint
 
 dotenv_path = join(dirname(__file__), "environment.env")
 load_dotenv(dotenv_path)
 
-
-API_KEY = os.environ["API_KEY"]
+random_api_bucket = str(randint(1, 12))
+environ_key = "API_KEY_" + random_api_bucket
+API_KEY = os.environ[environ_key]
 
 
 def get_channel_id_from_url(url):
