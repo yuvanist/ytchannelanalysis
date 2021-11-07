@@ -34,11 +34,12 @@ def get_video_id_and_playlist_id(
         if next_page_token != None:
             url = f"https://www.googleapis.com/youtube/v3/search?key={API_KEY}&part=snippet&channelId={channel_id}&maxResults={max_record_in_page}&pageToken={next_page_token}"
         data = json.loads(requests.get(url).text)
-        for item in data["items"]:
-            if item["id"]["kind"] == "youtube#video":
-                video_ids.append(item["id"]["videoId"])
-            elif item["id"]["kind"] == "youtube#playlist":
-                playlist_ids.append(item["id"]["playlistId"])
+        if "item" in data:
+            for item in data["items"]:
+                if item["id"]["kind"] == "youtube#video":
+                    video_ids.append(item["id"]["videoId"])
+                elif item["id"]["kind"] == "youtube#playlist":
+                    playlist_ids.append(item["id"]["playlistId"])
         next_page_token = (
             data["nextPageToken"] if "nextPageToken" in data else None
         )
